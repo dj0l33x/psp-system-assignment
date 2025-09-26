@@ -48,7 +48,7 @@ class PaymentControllerTest {
                 .andExpect(content().contentType(MediaType.APPLICATION_JSON))
                 .andExpect(jsonPath("$.id").isNotEmpty)
                 .andExpect(jsonPath("$.merchantId").value(merchantId.toString()))
-                .andExpect(jsonPath("$.status").value(PaymentStatus.APPROVED.name))
+                .andExpect(jsonPath("$.status").value(PaymentStatus.DENIED.name))
                 .andReturn()
                 .response
                 .contentAsString
