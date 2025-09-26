@@ -1,11 +1,10 @@
 package com.github.dj0l33x.psp.payment.dto
 
 import com.github.dj0l33x.psp.payment.CurrencyException
-import com.github.dj0l33x.psp.payment.dto.Currency
+import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.assertDoesNotThrow
 import org.junit.jupiter.api.assertThrows
-import kotlin.test.assertEquals
 
 class CurrencyTest {
     @Test

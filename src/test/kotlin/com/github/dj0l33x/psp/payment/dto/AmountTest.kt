@@ -1,7 +1,6 @@
 package com.github.dj0l33x.psp.payment.dto
 
 import com.github.dj0l33x.psp.payment.AmountException
-import com.github.dj0l33x.psp.payment.dto.Amount
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.assertDoesNotThrow
 import org.junit.jupiter.api.assertThrows

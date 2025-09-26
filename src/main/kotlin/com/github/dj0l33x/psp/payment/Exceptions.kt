@@ -23,3 +23,8 @@ class CardExpirationYearException(
 class CardNumberException(
     year: String,
 ) : Exception("Invalid card number value: $year")
+
+class CardExpiredException(
+    month: String,
+    year: String,
+) : Exception("Card is expired: $month/$year")

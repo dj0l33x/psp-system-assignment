@@ -21,7 +21,7 @@ class PaymentController(
         @RequestBody payment: CreatePaymentDto,
     ): PaymentDto =
         service
-            .create(payment.merchantId)
+            .create(payment.merchantId, payment.currency, payment.amount, payment.card)
             .toDto()
 }
 

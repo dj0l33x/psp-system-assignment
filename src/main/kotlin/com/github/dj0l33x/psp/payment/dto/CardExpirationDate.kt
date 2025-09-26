@@ -17,7 +17,13 @@ value class CardExpirationMonth private constructor(
         private val EXPIRATION_MONTH_REGEX = Regex("^(0[1-9]|1[0-2])$")
 
         @JsonCreator
-        fun from(month: String): CardExpirationMonth = CardExpirationMonth(month.trim())
+        fun from(month: String): CardExpirationMonth {
+            val formattedMonth =
+                month
+                    .trim()
+                    .let { if (it.length == 1) "0$it" else it }
+            return CardExpirationMonth(formattedMonth)
+        }
 
         operator fun invoke(month: String): CardExpirationMonth = from(month)
     }
