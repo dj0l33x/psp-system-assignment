@@ -1,0 +1,17 @@
+### Create New Payment
+POST http://localhost:8080/payments
+Content-Type: application/json
+
+{
+  "merchantId": "648c8ead-6e4f-462c-981e-6f4dd9b937c9",
+  "currency": "USD",
+  "amount": "10.00",
+  "card": {
+    "number": "4438231558582693",
+    "cvv": "123",
+    "expiration": {
+      "month": "12",
+      "year": "2028"
+    }
+  }
+}
