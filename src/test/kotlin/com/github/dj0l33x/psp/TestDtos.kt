@@ -11,6 +11,7 @@ import com.github.dj0l33x.psp.payment.dto.CardExpirationYear
 import com.github.dj0l33x.psp.payment.dto.CardNumber
 import com.github.dj0l33x.psp.payment.dto.CreatePaymentDto
 import com.github.dj0l33x.psp.payment.dto.Currency
+import java.math.BigDecimal
 import java.time.LocalDate
 import java.util.UUID
 
@@ -43,5 +44,13 @@ fun createCard(
             ),
     )
 
-fun createAcquirerTransaction(cardNumber: String = "4438231558582693"): AcquirerTransaction =
-    AcquirerTransaction(cardNumber = AcquirerTransactionCardNumber(number = cardNumber))
+fun createAcquirerTransaction(
+    amount: BigDecimal = BigDecimal(10.00),
+    currency: String = "USD",
+    cardNumber: String = "4438231558582693",
+): AcquirerTransaction =
+    AcquirerTransaction(
+        amount = amount,
+        currency = currency,
+        cardNumber = AcquirerTransactionCardNumber(number = cardNumber),
+    )

@@ -5,8 +5,5 @@ spring:
 logging:
   level:
     com.github.dj0l33x.psp: ${MAIN_LOG_LEVEL:DEBUG}
-    com.zaxxer: ${HIKARI_LOG_LEVEL:WARN}
     org.apache: ${APACHE_LOG_LEVEL:WARN}
-    org.flywaydb: ${FLYWAY_LOG_LEVEL:WARN}
-    org.hibernate: ${HIBERNATE_LOG_LEVEL:WARN}
     org.springframework: ${SPRING_LOG_LEVEL:WARN}
