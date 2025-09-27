@@ -1,8 +1,11 @@
 package com.github.dj0l33x.psp.acquirer
 
+import java.math.BigDecimal
 import java.util.UUID
 
 data class AcquirerTransaction(
+    val amount: BigDecimal,
+    val currency: String,
     val cardNumber: AcquirerTransactionCardNumber,
 )
 
@@ -25,5 +28,5 @@ data class AcquirerTransactionResult(
 enum class AcquirerTransactionStatus {
     APPROVED,
     DENIED,
-    FAILED
+    FAILED,
 }

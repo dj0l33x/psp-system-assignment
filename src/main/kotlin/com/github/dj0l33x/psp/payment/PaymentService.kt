@@ -13,6 +13,7 @@ import com.github.dj0l33x.psp.payment.dto.Card
 import com.github.dj0l33x.psp.payment.dto.Currency
 import org.slf4j.LoggerFactory
 import org.springframework.stereotype.Service
+import java.math.BigDecimal
 import java.util.UUID
 
 @Service
@@ -33,29 +34,35 @@ class PaymentService(
             .save(payment)
             .also { log.debug("Payment {} has been created in {} state", it.id, it.status) }
 
-        val transactionResult = sendTransactionToAcquirer(card)
+        val transactionResult = sendTransactionToAcquirer(amount, currency, card)
 
-        val newStatus =
-            when (transactionResult.status) {
-                AcquirerTransactionStatus.APPROVED -> PaymentStatus.APPROVED
-                AcquirerTransactionStatus.DENIED -> PaymentStatus.DENIED
-                AcquirerTransactionStatus.FAILED -> PaymentStatus.FAILED
-            }
-
-        return repository.save(
-            payment.copy(
-                status = newStatus,
+        return payment
+            .copy(
+                status = resolveNewPaymentStatus(transactionResult),
                 acquirerTransactionId = transactionResult.acquirerTransactionId,
                 acquirerName = transactionResult.acquirerName,
-            ),
-        )
+            ).also { repository.save(it) }
+            .also { log.info("Payment ${it.id} is processed with status ${it.status}") }
     }
 
-    private fun sendTransactionToAcquirer(card: Card): AcquirerTransactionResult {
+    private fun sendTransactionToAcquirer(
+        amount: Amount,
+        currency: Currency,
+        card: Card,
+    ): AcquirerTransactionResult {
         val transaction =
             AcquirerTransaction(
+                amount = BigDecimal(amount.value),
+                currency = currency.currencyCode,
                 cardNumber = AcquirerTransactionCardNumber(card.number.number),
             )
         return acquirerService.processTransaction(transaction)
     }
+
+    private fun resolveNewPaymentStatus(transactionResult: AcquirerTransactionResult): PaymentStatus =
+        when (transactionResult.status) {
+            AcquirerTransactionStatus.APPROVED -> PaymentStatus.APPROVED
+            AcquirerTransactionStatus.DENIED -> PaymentStatus.DENIED
+            AcquirerTransactionStatus.FAILED -> PaymentStatus.FAILED
+        }
 }

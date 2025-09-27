@@ -1,6 +1,8 @@
 package com.github.dj0l33x.psp.acquirer
 
 import org.slf4j.LoggerFactory
+import org.springframework.retry.annotation.Backoff
+import org.springframework.retry.annotation.Retryable
 import org.springframework.stereotype.Service
 
 @Service
@@ -9,6 +11,10 @@ class AcquirerService(
 ) {
     private val log = LoggerFactory.getLogger(this::class.java)
 
+    @Retryable(
+        maxAttempts = 3,
+        backoff = Backoff(delay = 2000),
+    )
     fun processTransaction(transaction: AcquirerTransaction): AcquirerTransactionResult =
         try {
             manager
