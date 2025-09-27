@@ -36,13 +36,13 @@ class PaymentService(
 
         val transactionResult = sendTransactionToAcquirer(amount, currency, card)
 
-        return repository.save(
-            payment.copy(
+        return payment
+            .copy(
                 status = resolveNewPaymentStatus(transactionResult),
                 acquirerTransactionId = transactionResult.acquirerTransactionId,
                 acquirerName = transactionResult.acquirerName,
-            ),
-        )
+            ).also { repository.save(it) }
+            .also { log.info("Payment ${it.id} is processed with status ${it.status}") }
     }
 
     private fun sendTransactionToAcquirer(
