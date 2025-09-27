@@ -47,10 +47,29 @@ docker run --rm -p 8080:8080 psp-system-assignment:local
 ```
 
 #### Image information from `dive` command:
+To see the image information, you can use the command
+```shell
+dive psp-system-assignment:local
+```
 
+Output example:
 ```
-Image name: psp-system-assignment:local                                                                                   -rw-r--r--         0:0     1.7 kB  │                   │   └── ZipInflaterInputStream.class                               
-Total Image size: 196 MB                                                                                                  drwxr-xr-x         0:0     1.0 kB  │                   ├── jarmode                                                        
-Potential wasted space: 56 kB                                                                                             -rw-r--r--         0:0      383 B  │                   │   ├── JarMode.class                                              
-Image efficiency score: 99 %                                                                                              -rw-r--r--         0:0      661 B  │                   │   └── JarModeErrorException.class                                
+Image name: psp-system-assignment:local
+Total Image size: 196 MB
+Potential wasted space: 56 kB
+Image efficiency score: 99 %
 ```
+#### Continuous integration build
+Each push to the repository main branch triggers the docker image build. The image is
+stored in GitHub Container Registry. There is no `latest` tag. Instead, you can use 
+a commit hash from the main branch or git tag from the repository. 
+
+You can pull the same image with the commands:
+```shell
+docker pull ghcr.io/dj0l33x/psp-system-assignment:v0.0.3
+```
+and
+```shell
+docker pull ghcr.io/dj0l33x/psp-system-assignment:645649fd5d5272f6593d6192f849f62048750580
+```
+
