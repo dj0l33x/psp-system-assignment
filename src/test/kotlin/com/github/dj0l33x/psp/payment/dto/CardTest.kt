@@ -16,8 +16,13 @@ class CardTest {
 
     @Test
     fun `card init failed - expiration month in past`() {
-        val expiredMonth = LocalDate.now().minusMonths(1).monthValue
-        assertThrows<CardExpiredException> { createCard(expirationMonth = expiredMonth.toString()) }
+        val pastDate = LocalDate.now().minusMonths(1)
+        assertThrows<CardExpiredException> {
+            createCard(
+                expirationMonth = pastDate.monthValue.toString(),
+                expirationYear = pastDate.year.toString(),
+            )
+        }
     }
 
     @Test
